@@ -50,6 +50,12 @@ pub const Point = extern struct {
     x: f32,
     y: f32,
 
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(x: f32, y: f32) Point {
+        return .{ .x = x, .y = y };
+    }
+
     /// Convert point to a 2-element array [x, y]
     pub inline fn toArray(p: Point) [2]f32 {
         return .{ p.x, p.y };
@@ -162,6 +168,12 @@ pub const Size = extern struct {
     width: u32,
     height: u32,
 
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(width: u32, height: u32) Size {
+        return .{ .width = width, .height = height };
+    }
+
     /// Convert size to Point with floating-point coordinates
     pub inline fn toPoint(s: Size) Point {
         return .{ .x = @floatFromInt(s.width), .y = @floatFromInt(s.height) };
@@ -216,6 +228,12 @@ pub const Region = extern struct {
     width: u32,
     height: u32,
 
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(x: u32, y: u32, width: u32, height: u32) Region {
+        return .{ .x = x, .y = y, .width = width, .height = height };
+    }
+
     /// Convert region to Rectangle with floating-point coordinates
     pub inline fn toRect(r: Region) Rectangle {
         return .{
@@ -246,6 +264,12 @@ pub const Rectangle = extern struct {
     y: f32,
     width: f32,
     height: f32,
+
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(x: f32, y: f32, width: f32, height: f32) Rectangle {
+        return .{ .x = x, .y = y, .width = width, .height = height };
+    }
 
     /// Convert rectangle to Region by rounding coordinates to integers.
     /// Asserts that all values are non-negative.
@@ -433,6 +457,12 @@ pub const Circle = extern struct {
     center: Point = .origin,
     radius: f32 = 1,
 
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(center: Point, radius: f32) Circle {
+        return .{ .center = center, .radius = radius };
+    }
+
     /// Translate circle by offset. Accepts Point, tuple, or array.
     pub fn translate(c: Circle, two_floats: anytype) Circle {
         return .{
@@ -521,6 +551,12 @@ pub const Ellipse = extern struct {
     center: Point = .origin,
     /// Radii in x and y directions
     radius: Point = .unit,
+
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(center: Point, radius: Point) Ellipse {
+        return .{ .center = center, .radius = radius };
+    }
 
     /// Translate ellipse by offset. Accepts Point, tuple, or array.
     pub fn translate(e: Ellipse, two_floats: anytype) Ellipse {
@@ -703,6 +739,12 @@ pub const Triangle = extern struct {
     p0: Point,
     p1: Point,
     p2: Point,
+
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(p0: Point, p1: Point, p2: Point) Triangle {
+        return .{ .p0 = p0, .p1 = p1, .p2 = p2 };
+    }
 
     /// Translate triangle by offset. Accepts Point, tuple, or array.
     pub fn translate(tri: Triangle, two_floats: anytype) Triangle {
@@ -910,6 +952,12 @@ pub const Line = extern struct {
     p0: Point,
     p1: Point,
 
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(p0: Point, p1: Point) Line {
+        return .{ .p0 = p0, .p1 = p1 };
+    }
+
     /// Translate line by offset. Accepts Point, tuple, or array.
     pub fn translate(l: Line, two_floats: anytype) Line {
         return .{
@@ -1060,8 +1108,14 @@ pub const Ray = struct {
         normal: Point,
     };
 
+    /// Initialization function alternative.
+    /// For use instead of .{}
+    pub inline fn init(origin: Point, dir: Point) Triangle {
+        return .{ .origin = origin, .dir = dir };
+    }
+
     /// Create a ray from two points (origin and a point the ray passes through)
-    pub fn init(p0: Point, p1: Point) Ray {
+    pub fn fromPoints(p0: Point, p1: Point) Ray {
         assert(!p0.isSame(p1));
         return .{
             .origin = p0,
